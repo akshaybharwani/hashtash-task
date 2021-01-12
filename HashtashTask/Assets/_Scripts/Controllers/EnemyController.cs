@@ -6,6 +6,8 @@ public class EnemyController : MonoBehaviour
 {
     #region Private Variables
 
+    private Rigidbody _rigidbody;
+    
     // Reference to store RigidbodyBooster component
     private RigidbodyBooster _rigidbodyBooster;
 
@@ -17,10 +19,11 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Get Enemy's Rigidbody
+        _rigidbody = GetComponent<Rigidbody>();
+        
         // Get RigidibodyBooster component
         _rigidbodyBooster = GetComponent<RigidbodyBooster>();
-        
-        InvokeRepeating("BoostRandomly", .5f, .5f);
     }
 
     // Update is called once per frame
@@ -44,5 +47,21 @@ public class EnemyController : MonoBehaviour
             _numberOfSteps++;
         else
             _numberOfSteps = 0;
+    }
+
+    /// <summary>
+    /// Starts Enemy's movements
+    /// </summary>
+    public void StartEnemy()
+    {
+        // Activate Enemy's gravity
+        _rigidbody.useGravity = true;
+        
+        InvokeRepeating("BoostRandomly", .5f, .5f);
+    }
+
+    public void StopEnemy()
+    {
+        CancelInvoke("BoostRandomly");
     }
 }

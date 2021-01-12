@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
     #region Public Variables
 
     [Header("Managers")] 
-    public UIManager UIManager;
+    public GameManager GameManager;
     
     [Header("Color")] 
     public Color32 FilledPointColor;
@@ -66,7 +66,8 @@ public class ScoreManager : MonoBehaviour
             // Update Score Text
             PlayerScoreText.text = _playerCurrentScore.ToString();
         }
-        else
+        
+        if (_pointsRequiredToWin == _playerCurrentScore)
         {
             GameEnd(PlayerName);
         }
@@ -89,7 +90,8 @@ public class ScoreManager : MonoBehaviour
             // Update Score Text
             EnemyScoreText.text = _enemyCurrentScore.ToString();
         }
-        else
+        
+        if (_pointsRequiredToWin == _enemyCurrentScore)
         {
             GameEnd(EnemyName);
         }
@@ -97,6 +99,6 @@ public class ScoreManager : MonoBehaviour
 
     private void GameEnd(string winner)
     {
-        UIManager.ShowEndGamePanelWithWinner(winner);
+        GameManager.EndGame(winner);
     }
 }

@@ -1,15 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     #region Public Variables
 
+    [Header("Managers")] 
+    public GameManager GameManager;
+    
     [Header("UI Panels")] 
     public CanvasGroup StartPanel;
     public CanvasGroup InstructionPanel;
+    public CanvasGroup EndGamePanel;
+
+    [Header("Texts")] public TextMeshProUGUI WinnerText;
 
     #endregion
 
@@ -46,7 +53,11 @@ public class UIManager : MonoBehaviour
 
     public void ShowEndGamePanelWithWinner(string winner)
     {
+        // Set Winner Name in text
+        WinnerText.text = winner;
         
+        // Show End Game Panel
+        ToggleCanvasGroup(EndGamePanel, true);
     }
     
     /// <summary>
@@ -61,6 +72,4 @@ public class UIManager : MonoBehaviour
 
         canvasGroup.DOFade(toggleValue ? 1 : 0, _animationDuration);
     }
-    
-    
 }
