@@ -44,7 +44,5 @@ public class EnemyController : MonoBehaviour
             _numberOfSteps++;
         else
             _numberOfSteps = 0;
-        
-        Debug.Log(_numberOfSteps);
     }
 }

@@ -8,14 +8,19 @@ public class ScoreManager : MonoBehaviour
 {
     #region Public Variables
 
+    [Header("Managers")] 
+    public UIManager UIManager;
+    
     [Header("Color")] 
     public Color32 FilledPointColor;
-    
-    [Header("Player UI")] 
+
+    [Header("Player")] 
+    public string PlayerName;
     public TextMeshProUGUI PlayerScoreText;
     public Image[] PlayerPointsImages;
-    
-    [Header("Player UI")] 
+
+    [Header("Enemy")] 
+    public string EnemyName;
     public TextMeshProUGUI EnemyScoreText;
     public Image[] EnemyPointsImages;
 
@@ -27,12 +32,15 @@ public class ScoreManager : MonoBehaviour
     private int _playerCurrentScore;
     private int _enemyCurrentScore;
 
+    private int _pointsRequiredToWin;
+
     #endregion
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Set Points Required To Win based on Player's Number of Point Images
+        _pointsRequiredToWin = PlayerPointsImages.Length;
     }
 
     // Update is called once per frame
@@ -47,7 +55,7 @@ public class ScoreManager : MonoBehaviour
     /// </summary>
     public void UpdatePlayerScore()
     {
-        if (_playerCurrentScore < PlayerPointsImages.Length)
+        if (_playerCurrentScore < _pointsRequiredToWin)
         {
             // Update Points Image
             PlayerPointsImages[_playerCurrentScore].color = FilledPointColor;
@@ -58,6 +66,10 @@ public class ScoreManager : MonoBehaviour
             // Update Score Text
             PlayerScoreText.text = _playerCurrentScore.ToString();
         }
+        else
+        {
+            GameEnd(PlayerName);
+        }
     }
     
     /// <summary>
@@ -66,7 +78,7 @@ public class ScoreManager : MonoBehaviour
     /// </summary>
     public void UpdateEnemyScore()
     {
-        if (_enemyCurrentScore < EnemyPointsImages.Length)
+        if (_enemyCurrentScore < _pointsRequiredToWin)
         {
             // Update Points Image
             EnemyPointsImages[_enemyCurrentScore].color = FilledPointColor;
@@ -77,5 +89,14 @@ public class ScoreManager : MonoBehaviour
             // Update Score Text
             EnemyScoreText.text = _enemyCurrentScore.ToString();
         }
+        else
+        {
+            GameEnd(EnemyName);
+        }
+    }
+
+    private void GameEnd(string winner)
+    {
+        UIManager.ShowEndGamePanelWithWinner(winner);
     }
 }
